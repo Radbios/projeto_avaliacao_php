@@ -11,7 +11,6 @@ class ContaPagar extends Model {
     protected static $primary_key = 'id_conta_pagar';
 
     protected $fillable = [
-        'id_conta_pagar',
         "id_empresa",
         "pago",
         "valor",

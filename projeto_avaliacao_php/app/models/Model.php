@@ -38,7 +38,7 @@ abstract class Model extends Connect {
             throw new \PDOException("Erro ao procurar registro: " . $e->getMessage());
         }
     }
-    
+
     static public function create($data) {
         $connection = Connect::connect();
 
@@ -57,6 +57,24 @@ abstract class Model extends Connect {
         } catch (\PDOException $e) {
             echo "Erro: " . $e->getMessage();
             return false;
+        }
+    }
+
+    public function update($data) {
+        try {
+            $columns = array_keys($data);
+            
+            $columns = implode(', ', array_map(function($column) {
+                return $column . ' = :' . $column;
+            }, $columns));
+    
+            $stmt = $this->connection->prepare("UPDATE " . static::$table . " SET " . $columns . " WHERE " . static::$primary_key . " = :id");
+            
+            $stmt->execute($data + ['id' => $this->{static::$primary_key}]);
+            
+            return true;
+        } catch (\PDOException $e) {
+            throw new \PDOException("Erro ao atualizar registro: " . $e->getMessage());
         }
     }
 

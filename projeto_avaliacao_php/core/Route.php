@@ -48,27 +48,26 @@ class Route {
     public function load() {
     
         if(!$this->route_exist()) {
-            throw new RouteNotExistException("Rota não existe");
+            throw new RouteNotExistException("Rota '". $this->uri ."' não existe");
         }        
 
         return $this->route;
     }
 
     private function route_exist() {
-        $uri_request = array_values(array_filter(explode("/", $this->uri)));
+        $uri_request = (array_filter(explode("/", $this->uri)));
    
-        foreach (self::$routes as $route) {
-            $uris = array_values(array_filter(explode("/", $route['uri'])));
-           
-            if(count($uri_request) == count($uris)) {
-                foreach($uris as $key => $value) {
+        foreach (static::$routes as $route) {
+            $uri = (array_filter(explode("/", $route['uri'])));
+            if(count($uri_request) == count($uri)) {
+                foreach($uri as $key => $value) {
                     if($value[0] == '{') {
-                        $route["params"][str_replace(['{', '}'] , "", $uris[$key])] = $uri_request[$key]; 
-                        $uris[$key] = $uri_request[$key];
+                        $route["params"][str_replace(['{', '}'] , "", $uri[$key])] = $uri_request[$key]; 
+                        $uri[$key] = $uri_request[$key];
                     }
                 }
 
-                $route['uri'] = '/' . implode('/', $uris);
+                $route['uri'] = '/' . implode('/', $uri);
 
                 if ($route['uri'] === $this->uri && $route['method'] === $this->method) {
                     $this->route = $route;

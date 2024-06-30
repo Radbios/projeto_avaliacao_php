@@ -10,16 +10,16 @@ function dd($dump) {
 
 function route($name, $params = null) {
     $route = Route::get_route_by_name($name);
-
     if(!$route) {
         throw new RouteNotExistException("Rota '$name' não existe");
     }
-
+    
     $uris = array_values(array_filter(explode("/", $route['uri'])));
-
+    $param_count = 0;
     foreach($uris as $key => $value) {
         if($value[0] == '{') {
-            $uris[$key] = $params[$key];
+            $uris[$key] = $params[$param_count];
+            $param_count++;
         }
     }
 
@@ -33,5 +33,5 @@ function redirect($uri) {
 }
 
 function back() {
-    return $_SERVER['REQUEST_URI'];
+    return $_SERVER['HTTP_REFERER'];
 }
