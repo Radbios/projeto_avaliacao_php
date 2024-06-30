@@ -7,6 +7,9 @@ use app\models\Connect;
 abstract class Model extends Connect {
     protected static $table;
 
+    protected static $wheres = [];
+    protected static $bindings = [];
+
     protected static $primary_key = "id";
     protected $connection;
 
@@ -21,6 +24,39 @@ abstract class Model extends Connect {
         return $connection->query("SELECT * FROM " .  static::$table)->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
+    public static function where($column, $operator, $value = null) {
+        if (func_num_args() === 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+
+        if(empty($value)) return new static();
+        
+        self::$wheres[] = "{$column} {$operator} :{$column}";
+        self::$bindings[$column] = $value;
+        return new static();
+    }
+
+    public static function get() {
+        $connection = Connect::connect();
+
+        $sql = "SELECT * FROM " . static::$table;
+
+        try {
+            if (!empty(self::$wheres)) {
+                $sql .= " WHERE " . implode(' AND ', self::$wheres);
+            }
+            $stmt = $connection->prepare($sql);
+            foreach (self::$bindings as $param => $value) {
+                $stmt->bindValue(":{$param}", $value);
+            }
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+
+        } catch (\PDOException $e) {
+            throw new \PDOException("Erro ao procurar registro: " . $e->getMessage());
+        }
+    }
 
     static public function find_or_fail($id) {
         $connection = Connect::connect();

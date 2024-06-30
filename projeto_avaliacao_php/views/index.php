@@ -21,6 +21,27 @@
             </form>
         </div>
 
+        <div>
+           <form action="{{route("conta.search")}}">
+                <select name="id_empresa">
+                        <option disabled selected>Selecione uma empresa</option>
+                        <?php foreach($data->empresas as $empresa): ?>
+                            <option value="{{$empresa->id_empresa}}">{{$empresa->nome}}</option>
+                        <?php endforeach ?>
+                </select>
+                <input type="date" name="data_pagar">
+
+                <select name="condicao">
+                    <option disabled selected>Condição</option>
+                    <option value=">">Maior</option>
+                    <option value="<">Menor</option>
+                    <option value="=">Igual</option>
+                </select>
+                <input type="number" name="valor" placeholder="Valor">
+                <button type="submit">filtrar</button>
+           </form>
+        </div>
+
         <table border="1">
             <thead>
                 <th colspan="3">Pagos</th>

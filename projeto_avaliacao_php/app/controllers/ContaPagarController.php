@@ -14,6 +14,17 @@ class ContaPagarController extends Controller{
         return $this->view("index", compact('contas', 'empresas', 'sum_valor_conta'));
     }
 
+    public function search() {
+        $contas = ContaPagar::where('data_pagar', $_GET['data_pagar'])
+                            ->where('id_empresa', $_GET['id_empresa']);
+        if(isset($_GET['condicao'])) $contas->where("valor", $_GET['condicao'], $_GET['valor']);
+        $contas = $contas->get();
+        $empresas = Empresa::all();
+        $sum_valor_conta = ContaPagarService::sum($contas, "valor", "pago");
+
+        return $this->view("index", compact('contas', 'empresas', 'sum_valor_conta'));
+    }
+
     public function show($params) {
         return redirect(route("empresa.index"));
     }
