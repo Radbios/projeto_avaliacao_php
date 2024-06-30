@@ -16,4 +16,8 @@ class ContaPagar extends Model {
         "valor",
         "data_pagar"
     ];
+
+    public function empresa() {
+        return $this->belongsTo(Empresa::class, 'id_empresa');
+    }
 }

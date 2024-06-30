@@ -7,11 +7,11 @@ use app\services\ContaPagarService;
 
 class ContaPagarController extends Controller{
     public function index() {
-        $contas = ContaPagar::all();
+        $contas = ContaPagar::with('empresa')->get();
         $empresas = Empresa::all();
-        $sum_valor_conta = ContaPagarService::sum($contas, "valor", "pago");
+        $resumo = ContaPagarService::summary($contas);
 
-        return $this->view("index", compact('contas', 'empresas', 'sum_valor_conta'));
+        return $this->view("index", compact('contas', 'empresas', 'resumo'));
     }
 
     public function search() {

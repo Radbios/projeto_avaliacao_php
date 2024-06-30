@@ -69,7 +69,7 @@
                 <?php foreach($data->contas as $conta): ?>
                     <tr>
                         <td>
-                            {{$conta->id_empresa}}
+                            {{$conta->empresa->nome}}
                         </td>
                         <td>
                             {{"R$:" . $conta->valor}}

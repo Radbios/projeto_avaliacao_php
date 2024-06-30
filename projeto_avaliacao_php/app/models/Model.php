@@ -10,6 +10,8 @@ abstract class Model extends Connect {
     protected static $wheres = [];
     protected static $bindings = [];
 
+    protected static $withRelations = [];
+
     protected static $primary_key = "id";
     protected $connection;
 
@@ -22,6 +24,22 @@ abstract class Model extends Connect {
     static public function all() {
         $connection = Connect::connect();
         return $connection->query("SELECT * FROM " .  static::$table)->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
+    public static function with($relations) {
+        if (is_string($relations)) {
+            $relations = func_get_args();
+        }
+        self::$withRelations = $relations;
+        return new static();
+    }
+
+
+    public function belongsTo($relatedClass, $foreignKey) {
+        $relatedModel = new $relatedClass;
+        $ownerId = $this->$foreignKey;
+
+        return $relatedModel->find_or_fail($ownerId);
     }
 
     public static function where($column, $operator, $value = null) {
@@ -51,7 +69,15 @@ abstract class Model extends Connect {
                 $stmt->bindValue(":{$param}", $value);
             }
             $stmt->execute();
-            return $stmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+            $results = $stmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+            foreach ($results as $instance) {
+                foreach (self::$withRelations as $relation) {
+                    if (method_exists($instance, $relation)) {
+                        $instance->{$relation} = $instance->{$relation}();
+                    }
+                }
+            }
+            return $results;
 
         } catch (\PDOException $e) {
             throw new \PDOException("Erro ao procurar registro: " . $e->getMessage());
