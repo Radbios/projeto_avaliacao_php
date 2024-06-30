@@ -1,13 +1,13 @@
 <?php
 
 use core\Route;
-use app\controllers\EmpresaController;
+use app\controllers\ContaPagarController;
 
 
-Route::get("/", [EmpresaController::class, "index"], "empresa.index");
-Route::get("/create", [EmpresaController::class, "create"], "empresa.create");
-Route::post("/", [EmpresaController::class, "store"], "empresa.store");
-Route::get("/{empresa}", [EmpresaController::class, "show"], "empresa.show");
-Route::get("/edit/{empresa}", [EmpresaController::class, "edit"], "empresa.edit");
-Route::post("/edit/{empresa}", [EmpresaController::class, "update"], "empresa.update");
-Route::post("/{empresa}", [EmpresaController::class, "delete"], "empresa.delete");
+Route::get("/", [ContaPagarController::class, "index"], "conta.index");
+Route::get("/create", [ContaPagarController::class, "create"], "conta.create");
+Route::post("/", [ContaPagarController::class, "store"], "conta.store");
+Route::get("/{conta}", [ContaPagarController::class, "show"], "conta.show");
+Route::get("/edit/{conta}", [ContaPagarController::class, "edit"], "conta.edit");
+Route::post("/edit/{conta}", [ContaPagarController::class, "update"], "conta.update");
+Route::post("/{conta}", [ContaPagarController::class, "delete"], "conta.delete");
