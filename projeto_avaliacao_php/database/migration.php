@@ -1,14 +1,22 @@
 <?php
+namespace database;
+
+require __DIR__.  "/../bootstrap.php";
+
+use app\classes\Bind;
 
 try {
-    $conn = new PDO("$database:host=$host", $username, $password);
+
+    $config = (object) Bind::get('config')->database;
+
+    $conn = new \PDO("$config->database:host=$config->host", $config->username, $config->password);
     
-    $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
+    $sql = "CREATE DATABASE IF NOT EXISTS $config->name";
     
     // Executa o comando SQL
     $conn->exec($sql);
     
-    $conn->exec("USE $dbname");
+    $conn->exec("USE $config->name");
 
     $diretorio = './database/migrations/';
 
@@ -30,7 +38,7 @@ try {
     }
 
     echo "Migration executada com sucesso!\n";
-} catch(PDOException $e) {
+} catch(\PDOException $e) {
     echo "Erro: " . $e->getMessage() . "\n";
 }
 

@@ -17,8 +17,8 @@ class ContaPagarMigration {
                     id_conta_pagar INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                     valor DECIMAL(10,2),
                     data_pagar DATE NOT NULL,
-                    pago TINYINT,
-                    id_empresa INT(6) UNSIGNED,  -- Ajuste o tipo de dado e unsigned conforme necessário
+                    pago TINYINT DEFAULT 0,
+                    id_empresa INT(6) UNSIGNED,
                     FOREIGN KEY (id_empresa) REFERENCES empresas(id_empresa)
                 )";
                 $conn->exec($sql);
