@@ -35,3 +35,9 @@ function redirect($uri) {
 function back() {
     return $_SERVER['HTTP_REFERER'];
 }
+
+function asset($path = null) {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+
+    return $protocol . '://' . $_SERVER['HTTP_HOST'] . "/" . ltrim($path, '/');
+}
