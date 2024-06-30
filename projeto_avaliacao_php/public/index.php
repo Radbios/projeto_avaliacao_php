@@ -1,6 +1,4 @@
 <?php 
-use app\classes\Uri;
-use app\controllers\EmpresaController;
 use core\Controller;
 use core\Method;
 use core\Route;

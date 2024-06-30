@@ -26,7 +26,13 @@ class Route {
     }
 
     static public function post($uri, $action, $name = null) {
-
+        self::$routes[] = [
+            'uri' => $uri,
+            'class' => $action[0],
+            'function' => $action[1],
+            'method' => 'POST',
+            'name' => $name
+        ];
     }
 
     static public function get_route_by_name($name) {
