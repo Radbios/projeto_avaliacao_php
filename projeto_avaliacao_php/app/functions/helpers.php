@@ -31,3 +31,7 @@ function route($name, $params = null) {
 function redirect($uri) {
     header("Location: " . $uri);
 }
+
+function back() {
+    return $_SERVER['REQUEST_URI'];
+}

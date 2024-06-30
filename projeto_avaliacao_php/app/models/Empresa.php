@@ -9,7 +9,4 @@ class Empresa extends Model {
     protected static $table = 'empresas';
     protected static $primary_key = 'id_empresa';
 
-    function __construct() {
-        parent::__construct();
-    }
 }

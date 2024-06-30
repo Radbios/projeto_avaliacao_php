@@ -7,9 +7,14 @@ use app\models\Model;
 class ContaPagar extends Model {
 
     protected static $table = 'contas_pagar';
+
     protected static $primary_key = 'id_conta_pagar';
 
-    function __construct() {
-        parent::__construct();
-    }
+    protected $fillable = [
+        'id_conta_pagar',
+        "id_empresa",
+        "pago",
+        "valor",
+        "data_pagar"
+    ];
 }

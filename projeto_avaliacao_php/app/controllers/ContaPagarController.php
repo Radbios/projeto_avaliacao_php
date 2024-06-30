@@ -17,6 +17,11 @@ class ContaPagarController extends Controller{
 
     public function store() {
         $conta = ContaPagar::create($_POST);
-        return redirect(route("conta.index"));
+        return redirect(back());
+    }
+
+    public function delete($params) {
+        ContaPagar::find_or_fail($params['conta'])->delete();
+        return redirect(back());
     }
 }
