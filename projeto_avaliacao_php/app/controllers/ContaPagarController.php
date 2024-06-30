@@ -15,7 +15,8 @@ class ContaPagarController extends Controller{
     }
 
     public function search() {
-        $contas = ContaPagar::where('data_pagar', $_GET['data_pagar'])
+        $contas = ContaPagar::with("empresa")
+                            ->where('data_pagar', $_GET['data_pagar'])
                             ->where('id_empresa', $_GET['id_empresa']);
         if(isset($_GET['condicao'])) $contas->where("valor", $_GET['condicao'], $_GET['valor']);
         $contas = $contas->get();
