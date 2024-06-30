@@ -1,19 +1,19 @@
 <?php
 
 namespace app\traits;
+
 use app\exceptions\ViewNotExistException;
-use DirectoryIterator;
 
 trait View {
 
     private $view_path = '../views/';
     public function view($view, $data) {
         $data = (object) $data;
-
-        $template = $this->view_path . str_replace('.', '/', $view) . '.php';
-
+        $view =  str_replace('.', '/', $view) . '.php';
+        $template = $this->view_path . $view;
+        
         if (!file_exists($template)) {
-            throw new ViewNotExistException("View {$template} não encontrado.");
+            throw new ViewNotExistException("View '{$view}' não encontrado.");
         }
         $conteudo = file_get_contents($template);
         $conteudo = str_replace(["{{", "}}"], ["<?php echo ", " ?>"], $conteudo);

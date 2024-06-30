@@ -65,7 +65,7 @@
                                 <form action="{{route("conta.change_status", [$conta->id_conta_pagar])}}" method="POST">
                                     <button type="submit">Mudar status</button>
                                 </form>
-                                <a href="">Editar</a>
+                                <a href="{{route("conta.edit", [$conta->id_conta_pagar])}}">Editar</a>
                                 <form action="{{route("conta.delete", [$conta->id_conta_pagar])}}" method="post">
                                     <button>Excluir</button>
                                 </form>
