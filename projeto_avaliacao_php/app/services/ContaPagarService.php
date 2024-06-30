@@ -3,14 +3,33 @@
 namespace app\services;
 
 class ContaPagarService {
-    public static function sum($obj, $attr, $group = null) {
-        $sum = $group ? [] : null;
+    public static function summary($obj) {
+        $summary = [
+            "pago" => [
+                "quantidade" => 0,
+                "valor" => 0
+            ],
+            "nao_pago" => [
+                "quantidade" => 0,
+                "valor" => 0
+            ]
+        ];
+
         foreach ($obj as $item) {
-            if(is_array($sum)){
-                $sum[$item->$group] = key_exists($item->$group, $sum) ? $sum[$item->$group] + $item->$attr : $item->$attr;
+            $value = $item->valor;
+
+            if($item->data_pagar > date('Y-m-d')) {
+                $value *= 1.1;
             }
-            else $sum += $item->$attr;
+            elseif($item->data_pagar < date('Y-m-d')) {
+                $value *= 0.95;
+            }
+
+            $group = $item->pago ? "pago" : "nao_pago";
+
+            $summary[$group]["quantidade"]++;
+            $summary[$group]["valor"] += $value;
         }
-        return $sum;
+        return $summary;
     }
 }

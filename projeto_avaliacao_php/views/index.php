@@ -50,8 +50,10 @@
 
             <tbody>
                 <tr>
-                    <td colspan="3">{{"R$:" . number_format($data->sum_valor_conta[1], 2)}}</td>
-                    <td colspan="3">{{"R$:" . number_format($data->sum_valor_conta[0], 2)}}</td>
+                    <td colspan="1">{{$data->resumo["pago"]["quantidade"]}}</td>
+                    <td colspan="2">{{"R$:" . number_format($data->resumo["pago"]["valor"], 2)}}</td>
+                    <td colspan="1">{{$data->resumo["nao_pago"]["quantidade"]}}</td>
+                    <td colspan="2">{{"R$:" . number_format($data->resumo["nao_pago"]["valor"], 2)}}</td>
                 </tr>
             </tbody>
             <thead>

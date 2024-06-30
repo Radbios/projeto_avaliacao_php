@@ -20,9 +20,9 @@ class ContaPagarController extends Controller{
         if(isset($_GET['condicao'])) $contas->where("valor", $_GET['condicao'], $_GET['valor']);
         $contas = $contas->get();
         $empresas = Empresa::all();
-        $sum_valor_conta = ContaPagarService::sum($contas, "valor", "pago");
+        $resumo = ContaPagarService::summary($contas);
 
-        return $this->view("index", compact('contas', 'empresas', 'sum_valor_conta'));
+        return $this->view("index", compact('contas', 'empresas', 'resumo'));
     }
 
     public function show($params) {
