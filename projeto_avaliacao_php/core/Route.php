@@ -15,17 +15,28 @@ class Route {
         $this->uri = Uri::uri();
         $this->method = $_SERVER['REQUEST_METHOD'];
     }
-    static public function get($uri, $action) {
+    static public function get($uri, $action, $name = null) {
         self::$routes[] = [
             'uri' => $uri,
             'class' => $action[0],
             'function' => $action[1],
-            'method' => 'GET'
+            'method' => 'GET',
+            'name' => $name
         ];
     }
 
-    static public function post($uri, $action) {
+    static public function post($uri, $action, $name = null) {
 
+    }
+
+    static public function get_route_by_name($name) {
+        foreach (self::$routes as $route) {
+            if($route['name'] == $name) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 
     public function load() {
@@ -38,10 +49,10 @@ class Route {
     }
 
     private function route_exist() {
-        $uri_request = array_filter(explode("/", $this->uri));
+        $uri_request = array_values(array_filter(explode("/", $this->uri)));
    
         foreach (self::$routes as $route) {
-            $uris = array_filter(explode("/", $route['uri']));
+            $uris = array_values(array_filter(explode("/", $route['uri'])));
            
             if(count($uri_request) == count($uris)) {
                 foreach($uris as $key => $value) {

@@ -1,3 +1,3 @@
 <html>
-    <?php echo $data['data'] ?>
+    <?php echo route("empresa.index")?>
 </html>
