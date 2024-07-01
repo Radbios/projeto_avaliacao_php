@@ -64,4 +64,8 @@ class ContaPagarController extends Controller{
         ContaPagar::find_or_fail($params['conta'])->delete();
         return redirect(back());
     }
+
+    public function api_show($params) {
+        return json_encode(ContaPagar::find_or_fail($params['conta']));
+    }
 }

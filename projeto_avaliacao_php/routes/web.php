@@ -11,3 +11,6 @@ Route::post("/change_status/{conta}", [ContaPagarController::class, "change_stat
 Route::post("/{conta}", [ContaPagarController::class, "delete"], "conta.delete");
 Route::get("/edit/{conta}", [ContaPagarController::class, "edit"], "conta.edit");
 Route::post("/edit/{conta}", [ContaPagarController::class, "update"], "conta.update");
+
+
+Route::get("/api/{conta}", [ContaPagarController::class, "api_show"], "api.conta.show");

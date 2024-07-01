@@ -3,9 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Página principal</title>
 
         <link rel="stylesheet" href="{{asset("assets/css/style.css")}}">
+        <link rel="stylesheet" href="{{asset("assets/css/modal.css")}}">
     </head>
     <body>
         <div class="container">
@@ -78,14 +79,14 @@
                             <td>
                                 {{date("d/m/Y", strtotime($conta->data_pagar))}}
                             </td>
-                            <td>
+                            <td class="status {{$conta->pago ? 'pago' : 'nao-pago'}}">
                                 {{$conta->pago ? "PAGO" : "NÃO PAGO"}}
                             </td>
                             <td class="actions-table">
                                 <form action="{{route("conta.change_status", [$conta->id_conta_pagar])}}" method="POST">
                                     <button type="submit" class="btn btn-default">Mudar status</button>
                                 </form>
-                                <a class="btn btn-edit" href="{{route("conta.edit", [$conta->id_conta_pagar])}}">Editar</a>
+                                <button class="btn btn-edit modal_btn" data-id="{{$conta->id_conta_pagar}}" data-route="{{route("api.conta.show", [$conta->id_conta_pagar])}}">Editar</button>
                                 <form action="{{route("conta.delete", [$conta->id_conta_pagar])}}" method="post">
                                     <button type="submit" class="btn btn-delete">Excluir</button>
                                 </form>
@@ -94,6 +95,35 @@
                     <?php endforeach ?>
                 </tbody>
             </table>
+
+
+            <!-- MODAL Content -->
+            <label for="modal" class="modal-background"></label>
+            <form class="modal" action="{{route("conta.update", ["param"])}}" method="post">
+                <div class="modal-header">
+                    <h3 id="title-modal"></h3>
+                </div>
+                <div class="modal-body">
+                    <select name="id_empresa">
+                        <option>Selecione uma empresa</option>
+                        <?php foreach($data->empresas as $empresa): ?>
+                            <option id="option{{$empresa->id_empresa}}" value="{{$empresa->id_empresa}}" {{$data->conta->id_empresa == $empresa->id_empresa ? "selected" : ""}}>{{$empresa->nome}}</option>
+                        <?php endforeach ?>
+                    </select>
+                    <input type="date" name="data_pagar" id="edit_data_pagar">
+                    <input type="number" name="valor" id="edit_valor" placeholder="R$:0">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">
+                            Editar
+                    </button>
+                    <button type="button" id="close_modal" class="btn btn-delete">
+                            Cancelar
+                    </button>
+                </div>
+            </form>
         </div>
+
+        <script src="{{asset("assets/js/modal.js")}}"></script>
     </body>
 </html>

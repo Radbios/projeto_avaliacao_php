@@ -25,11 +25,21 @@
     justify-content: center;
 }
 
-.main-body {
+.status {
+    color: white;
+}
+
+.pago {
+    background-color: green;
+}
+
+.nao-pago{
+    background-color: red;
 }
 
 th{
-    font-size: 15px;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
 td {
@@ -38,6 +48,7 @@ td {
 }
 
 .empresa {
+    text-transform: uppercase;
     text-align: justify;
     padding-inline: 20px;
 }
@@ -51,7 +62,7 @@ td {
 
 .btn{
     text-decoration: none;
-    border-radius: 15px;
+    border-radius: 8px;
     border: none;
     display: flex;
     align-items: center;
