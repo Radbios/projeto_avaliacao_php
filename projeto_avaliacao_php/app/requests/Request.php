@@ -7,7 +7,7 @@ class Request {
     protected $error;
     protected function rules() {
         return [
-
+            ''
         ];
     }
     public function validate() {
