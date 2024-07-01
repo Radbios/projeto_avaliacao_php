@@ -3,6 +3,7 @@
 namespace app\controllers;
 use app\models\ContaPagar;
 use app\models\Empresa;
+use app\requests\ContaPagarRequest;
 use app\services\ContaPagarService;
 
 class ContaPagarController extends Controller{
@@ -31,7 +32,12 @@ class ContaPagarController extends Controller{
     }
 
     public function store() {
-        $conta = ContaPagar::create($_POST);
+        $validation = new ContaPagarRequest($_POST);
+        
+        if($validation->validate()) {
+            ContaPagar::create($_POST);
+        }
+        
         return redirect(back());
     }
 
@@ -47,8 +53,12 @@ class ContaPagarController extends Controller{
     }
 
     public function update($params) {
-        $conta = ContaPagar::find_or_fail($params['conta']);
-        $conta->update($_POST);
+        $validation = new ContaPagarRequest($_POST);
+        
+        if($validation->validate()) {
+            $conta = ContaPagar::find_or_fail($params['conta']);
+            $conta->update($_POST);
+        }
 
         return redirect(route("conta.index"));
     }
