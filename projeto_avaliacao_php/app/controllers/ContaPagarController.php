@@ -46,13 +46,6 @@ class ContaPagarController extends Controller{
         
     }
 
-    public function edit($params) {
-        $conta = ContaPagar::find_or_fail($params['conta']);
-        $empresas = Empresa::all();
-
-        return $this->view("edit", compact("conta", "empresas"));
-    }
-
     public function update($params) {
         $conta = ContaPagar::find_or_fail($params['conta']);
         $conta->update($_POST);
